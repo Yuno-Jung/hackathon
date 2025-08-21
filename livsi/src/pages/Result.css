@@ -1,15 +1,20 @@
 .result-section {
-  margin-top: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  text-align: center;
+  font-family: sans-serif;
 }
 
 .video-preview {
   position: relative;
   display: inline-block;
+  width: 100%;
 }
 
 .video-thumbnail {
   width: 100%;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .play-overlay {
@@ -23,25 +28,82 @@
 }
 
 .result-text {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  margin: 12px 0;
+  margin: 16px 0;
+}
+
+.upload-box {
+  border: 2px dashed #aaa;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin: 16px 0;
+  cursor: pointer;
+  transition: border 0.2s;
+}
+.upload-box:hover {
+  border-color: #555;
+}
+
+.upload-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.upload-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.file-input {
+  display: none;
+}
+
+.thumbnail-preview {
+  margin-top: 12px;
+  max-width: 200px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.section-title {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.info-box {
+  margin-top: 16px;
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .action-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  gap: 12px;
+}
+
+.retry-btn,
+.publish-btn {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
 
 .retry-btn {
   background-color: #000;
   color: #fff;
-  flex: 1;
-  margin-right: 10px;
 }
 
 .publish-btn {
   background-color: #b6ff73;
-  flex: 1;
 }

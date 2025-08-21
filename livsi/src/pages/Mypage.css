@@ -1,0 +1,49 @@
+.mypage-container {
+  margin: 20px auto;
+  max-width: 600px;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.mypage-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.mypage-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+  width: 45%;
+}
+
+.mypage-thumb {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.mypage-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-btn {
+  background: #b6ff73;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ff7373;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
