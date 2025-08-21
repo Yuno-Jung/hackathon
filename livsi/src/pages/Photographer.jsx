@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Header from "../components/header";
 import "./Photographer.css";
 
 function Photographer() {
@@ -14,12 +15,34 @@ function Photographer() {
   const [location, setLocation] = useState("");
   const [effect, setEffect] = useState("기본 효과");
 
+  // 📌 수정 모드일 경우 기존 데이터 불러오기
+  useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem(`upload_${id}`));
+    if (savedData) {
+      setStoreImg(savedData.storeImg || null);
+      setMenuImg(savedData.menuImg || null);
+      setFoodVideo(savedData.foodVideo || null);
+      setCategory(savedData.category || "");
+      setDescription(savedData.description || "");
+      setLocation(savedData.location || "");
+      setEffect(savedData.effect || "기본 효과");
+    }
+  }, [id]);
+
+  const handleAddressSearch = () => {
+    new window.daum.Postcode({
+      oncomplete: (data) => {
+        setLocation(data.address);
+      },
+    }).open();
+  };
+
   const handleSubmit = () => {
     const uploadData = {
       userId: id,
-      storeImg: storeImg ? URL.createObjectURL(storeImg) : null,
-      menuImg: menuImg ? URL.createObjectURL(menuImg) : null,
-      foodVideo: foodVideo ? URL.createObjectURL(foodVideo) : null,
+      storeImg: storeImg,
+      menuImg: menuImg,
+      foodVideo: foodVideo,
       category,
       description,
       location,
@@ -32,47 +55,9 @@ function Photographer() {
 
   return (
     <div className="photographer-container">
-      <h1 className="logo">LIV:SI</h1>
+      <Header />   {/* ✅ 공통 헤더 */}
+      
 
-      {/* 외관 업로드 */}
-      <p className="section-title">가게의 외관/간판을 업로드해주세요.</p>
-      <div className="upload-box">
-        <label htmlFor="store-upload" className="upload-label">
-          <span className="upload-icon">⬆</span>
-          <p>파일 선택하여 업로드</p>
-          <input
-            id="store-upload"
-            type="file"
-            className="file-input"
-            accept="image/*"
-            onChange={(e) => setStoreImg(e.target.files[0])}
-          />
-        </label>
-      </div>
-      {storeImg && (
-        <img src={URL.createObjectURL(storeImg)} alt="store preview" width="200" />
-      )}
-
-      {/* 메뉴판 업로드 */}
-      <p className="section-title">가게의 메뉴판을 업로드해주세요.</p>
-      <div className="upload-box">
-        <label htmlFor="menu-upload" className="upload-label">
-          <span className="upload-icon">⬆</span>
-          <p>파일 선택하여 업로드</p>
-          <input
-            id="menu-upload"
-            type="file"
-            className="file-input"
-            accept="image/*"
-            onChange={(e) => setMenuImg(e.target.files[0])}
-          />
-        </label>
-      </div>
-      {menuImg && (
-        <img src={URL.createObjectURL(menuImg)} alt="menu preview" width="200" />
-      )}
-
-      {/* 음식 영상 업로드 */}
       <p className="section-title">가게의 음식 영상을 업로드해주세요.</p>
       <div className="upload-box">
         <label htmlFor="video-upload" className="upload-label">
@@ -83,50 +68,38 @@ function Photographer() {
             type="file"
             className="file-input"
             accept="video/*"
-            onChange={(e) => setFoodVideo(e.target.files[0])}
+            onChange={(e) => setFoodVideo(URL.createObjectURL(e.target.files[0]))}
           />
         </label>
       </div>
-      {foodVideo && (
-        <video width="300" controls src={URL.createObjectURL(foodVideo)} />
-      )}
+      {foodVideo && <video width="300" controls src={foodVideo} />}
 
-      {/* 카테고리 선택 */}
-      <p className="section-title">업로드한 영상의 카테고리를 설정해주세요</p>
-      <div className="category-buttons">
-        <button onClick={() => setCategory("음식점")}>🍜 음식점</button>
-        <button onClick={() => setCategory("카페")}>🏠 카페</button>
-        <button onClick={() => setCategory("주류")}>🍺 주류</button>
-      </div>
-
-      {/* 설명 폼 */}
       <div className="form-box">
-        <input
-          type="text"
-          placeholder="가게 설명"
-          className="input-field"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="위치"
-          className="input-field"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+        <div className="address-box">
+          <input
+            type="text"
+            placeholder="위치"
+            className="input-field"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            readOnly
+          />
+          <button type="button" onClick={handleAddressSearch} className="address-btn">
+            주소 검색
+          </button>
+        </div>
+
         <select
           className="input-field"
           value={effect}
           onChange={(e) => setEffect(e.target.value)}
         >
-          <option>기본 효과</option>
-          <option>흑백</option>
-          <option>비네팅</option>
+          <option>남자</option>
+          <option>여자</option>
         </select>
       </div>
 
-      <button className="btn start-btn" onClick={handleSubmit}>
+      <button className="start-btn" onClick={handleSubmit}>
         편집 시작!
       </button>
     </div>

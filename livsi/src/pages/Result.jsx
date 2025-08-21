@@ -1,19 +1,23 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Header from "../components/header";
 import "./Result.css";
 
 function Result() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const uploadData = JSON.parse(localStorage.getItem(`upload_${id}`));
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const currentUser = users.find((user) => user.id === Number(id));
+  const userName = currentUser ? currentUser.name : "사용자";
 
   const [thumbnail, setThumbnail] = useState(null);
 
   const handlePublish = () => {
-    // 기존 업로드 데이터에 'published' 상태 저장
     const allPosts = JSON.parse(localStorage.getItem("publishedPosts")) || [];
     const newPost = {
-      id: Date.now(), // 고유 id
+      id: Date.now(),
       userId: id,
       ...uploadData,
       thumbnail: thumbnail ? URL.createObjectURL(thumbnail) : null,
@@ -27,13 +31,12 @@ function Result() {
 
   return (
     <div className="result-section">
-      <h1>LIV:SI</h1>
-      <h3>사용자 {id} 결과 페이지</h3>
+      <Header />
+      <h3>{userName}님 결과 페이지</h3>
 
       <div className="video-preview">
         {uploadData?.foodVideo ? (
           <video
-            width="100%"
             className="video-thumbnail"
             controls
             src={uploadData.foodVideo}
@@ -72,10 +75,7 @@ function Result() {
       )}
 
       <div className="action-buttons">
-        <button
-          className="retry-btn"
-          onClick={() => navigate(`/photographer/${id}`)}  // ⬅️ 다시 만들기 동작 추가
-        >
+        <button className="retry-btn" onClick={() => navigate(`/photographer/${id}`)}>
           다시만들기
         </button>
         <button className="publish-btn" onClick={handlePublish}>

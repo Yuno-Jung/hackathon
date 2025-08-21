@@ -1,15 +1,9 @@
 .photographer-container {
-  max-width: 380px;
-  margin: 0 auto;
+  width: 100%;
+  min-height: 100vh;
   padding: 20px;
-  font-family: Arial, sans-serif;
+  box-sizing: border-box;
   text-align: center;
-}
-
-.logo {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
 }
 
 .upload-box {
@@ -45,43 +39,43 @@
   font-weight: bold;
 }
 
-.category-buttons {
+.address-box {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+  gap: 10px;          /* 입력창과 버튼 사이 간격 */
+  margin-bottom:0px;
+  align-items: center; /* 수직 중앙 정렬 */
 }
 
-.category-btn {
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  background: #fff;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
+.address-box .input-field {
+  flex: 3;             /* 입력창이 버튼보다 더 넓게 */
+  min-width: 0;        /* flex-shrink 방지 */
 }
 
-.form-box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.input-field {
+.address-box .address-btn {
+  flex: 1;             /* 버튼 크기 */
   padding: 10px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  border-radius: 4px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
 }
 
-.btn {
+
+.address-btn,
+.start-btn {
+  flex: 1;
   padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
-  font-size: 15px;
   cursor: pointer;
+}
+
+.address-btn {
+  background-color: #000;
+  color: #fff;
 }
 
 .start-btn {

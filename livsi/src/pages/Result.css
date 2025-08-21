@@ -1,36 +1,24 @@
 .result-section {
-  margin: 20px auto;
-  max-width: 500px;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
   text-align: center;
-  font-family: sans-serif;
 }
 
 .video-preview {
-  position: relative;
-  display: inline-block;
   width: 100%;
+  margin-bottom: 16px;
 }
 
 .video-thumbnail {
-  width: 100%;
+  width: 100%;          /* 최대한 폭을 차지 */
+  max-width: 500px;     /* 최대 폭 제한 */
+  height: auto;         /* 비율 유지 */
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-.play-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
-  color: white;
-  text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
-}
-
-.result-text {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 16px 0;
+  margin: 0 auto;       /* 가운데 정렬 */
+  display: block;
 }
 
 .upload-box {
@@ -40,53 +28,22 @@
   text-align: center;
   margin: 16px 0;
   cursor: pointer;
-  transition: border 0.2s;
-}
-.upload-box:hover {
-  border-color: #555;
-}
-
-.upload-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-
-.upload-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.file-input {
-  display: none;
 }
 
 .thumbnail-preview {
-  margin-top: 12px;
-  max-width: 200px;
+  width: 100%;
+  max-width: 300px;     /* 썸네일도 최대 폭 제한 */
+  height: auto;
   border-radius: 8px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.section-title {
-  margin-top: 12px;
-  font-weight: 600;
-  color: #333;
-}
-
-.info-box {
-  margin-top: 16px;
-  text-align: left;
-  font-size: 14px;
-  line-height: 1.5;
+  margin: 12px auto 0 auto;
+  display: block;
 }
 
 .action-buttons {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
   gap: 12px;
+  margin-top: 20px;
 }
 
 .retry-btn,
