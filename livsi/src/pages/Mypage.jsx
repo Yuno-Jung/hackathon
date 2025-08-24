@@ -1,3 +1,4 @@
+// src/pages/Mypage.jsx
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -23,18 +24,28 @@ function MyPage() {
   };
 
   const handleEdit = (post) => {
-    // 선택한 게시물 데이터를 수정용으로 localStorage에 저장
     localStorage.setItem(`upload_${id}`, JSON.stringify(post));
+    navigate(`/photographer/${id}`);
+  };
 
-    // Photographer 페이지로 이동
+  // ✅ 새로 만들기 버튼 클릭 시 Photographer로 이동
+  const handleNewVideo = () => {
+    localStorage.removeItem(`upload_${id}`); // 이전 수정 데이터 초기화
     navigate(`/photographer/${id}`);
   };
 
   return (
     <div className="mypage-container">
       <Header />   {/* ✅ 공통 헤더 */}
-      
+
+      {/* ✅ 새로 만들기 버튼 */}
+      <button className="new-video-btn" onClick={handleNewVideo}>
+         + 동영상 새로 만들기
+      </button>
+
       <h3>내 영상 관리</h3>
+
+      
 
       {posts.length > 0 ? (
         <div className="mypage-grid">

@@ -1,27 +1,19 @@
-import React from "react";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css"
+import "./Login.css";
 import { livsiFunctionContext } from "../App";
 
 function Login() {
-
-  const { IsLogin } = useContext(livsiFunctionContext)
-
+  const { handleLogin } = useContext(livsiFunctionContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const foundUser = users.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (foundUser) {
+  const onLogin = () => {
+    const user = handleLogin(username, password);
+    if (user) {
       alert("로그인 성공!");
-      IsLogin(username, password)
-      navigate(`/mypage/${foundUser.id}`);
+      navigate(`/mypage/${user.id}`);
     } else {
       alert("아이디 또는 비밀번호가 올바르지 않습니다.");
     }
@@ -45,7 +37,7 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="btn" onClick={handleLogin}>
+        <button className="btn" onClick={onLogin}>
           로그인
         </button>
       </div>

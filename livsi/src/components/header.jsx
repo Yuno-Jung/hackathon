@@ -31,6 +31,7 @@ const Header = () => {
       <div className="nav">
         <IoMdInformationCircleOutline size={30} className="menu-icon" onClick={goInfo} />
         <GoHome size={30} className="home-icon" onClick={goHome} />
+        
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
+// src/pages/Short.jsx
 import { useState, useMemo, useRef, useEffect } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 import './short.css';
 
@@ -13,7 +15,9 @@ const getColorById = (id) => {
   return `hsl(${hue}, 70%, 80%)`;
 };
 
-export default function App() {
+export default function Short() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [playlist, setPlaylist] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [watchCounts, setWatchCounts] = useState(new Map());
@@ -24,49 +28,21 @@ export default function App() {
   const isDragging = useRef(false);
 
   useEffect(() => {
-    if (playlist.length > 0 && playlist[currentIndex]) {
-      const currentId = playlist[currentIndex];
-      const currentHash = window.location.hash.substring(2);
-      if (currentId !== currentHash) {
-        window.location.hash = `/${currentId}`;
-      }
-    }
-  }, [currentIndex, playlist]);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const idFromHash = window.location.hash.substring(2);
-      if (idFromHash) {
-        if (playlist.length > 0 && playlist[currentIndex] === idFromHash) return;
-
-        const indexInPlaylist = playlist.indexOf(idFromHash);
-        if (indexInPlaylist !== -1) {
-          setCurrentIndex(indexInPlaylist);
-        } else {
-          const videoExists = ALL_VIDEOS.some(v => v.id === idFromHash);
-          if (videoExists) {
-            const newPlaylist = [...playlist, idFromHash];
-            setPlaylist(newPlaylist);
-            setCurrentIndex(newPlaylist.length - 1);
-            setWatchCounts(prev => new Map(prev).set(idFromHash, (prev.get(idFromHash) || 0) + 1));
-          }
-        }
-      }
-    };
-
     if (playlist.length === 0) {
-      const idFromHash = window.location.hash.substring(2);
-      const initialVideo = ALL_VIDEOS.find(v => v.id === idFromHash) || ALL_VIDEOS[0];
+      const initialVideo = ALL_VIDEOS.find(v => v.id === id) || ALL_VIDEOS[0];
       setPlaylist([initialVideo.id]);
-      setCurrentIndex(0);
       setWatchCounts(new Map([[initialVideo.id, 1]]));
     }
-    
-    window.addEventListener('hashchange', handleHashChange);
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, [playlist, currentIndex]);
+  }, [id, playlist]);
+
+  useEffect(() => {
+    if (playlist.length > 0 && playlist[currentIndex]) {
+      const currentId = playlist[currentIndex];
+      if (currentId !== id) {
+        navigate(`/short/${currentId}`, { replace: true });
+      }
+    }
+  }, [currentIndex, playlist, id, navigate]);
 
   const videosToRender = useMemo(() => {
     const start = Math.max(0, currentIndex - 1);
