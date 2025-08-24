@@ -53,20 +53,6 @@ function Result() {
 
       <p className="result-text">편집 완료!</p>
 
-      <div className="upload-box">
-        <label htmlFor="thumbnail-upload" className="upload-label">
-          <span className="upload-icon">⬆</span>
-          <p>썸네일 업로드</p>
-          <input
-            id="thumbnail-upload"
-            type="file"
-            className="file-input"
-            accept="image/*"
-            onChange={(e) => setThumbnail(e.target.files[0])}
-          />
-        </label>
-      </div>
-
       {thumbnail && (
         <img
           src={URL.createObjectURL(thumbnail)}
