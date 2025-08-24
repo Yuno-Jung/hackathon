@@ -7,7 +7,7 @@ const Video = ({content}) => {
     const nav = useNavigate()
 
     const toShort = () => {
-        nav(`/short/${content}`)
+        nav(`/short/#/${content}`)
     }
 
     return (
