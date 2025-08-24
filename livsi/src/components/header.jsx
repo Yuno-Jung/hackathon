@@ -1,49 +1,36 @@
-import { Link } from "react-router-dom";
-import { FaHome, FaBars, FaTimes } from "react-icons/fa";
-import { useState } from "react";
 import "./Header.css";
+import { GoHome } from "react-icons/go";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { livsistateContext } from "../App";
 
-function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+const Header = () => {
+  
+  const { loginInfo, isLogin } = useContext(livsistateContext);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const nav = useNavigate();
+
+  const goHome = () => {
+    nav("/");
+    console.log("홈");
+  };
+
+  const goInfo = () => {
+    nav(isLogin ? `/mypage/${loginInfo.id}` : "/signin");
+  }
 
   return (
-    <header className="header">
-      <div className="header-left">
-        <Link to="/" className="logo">
-          LIV:SI
-        </Link>
+    <div className="header">
+      <h1 className="logo" onClick={goHome}>
+        LIV:SI
+      </h1>
+      <div className="nav">
+        <IoMdInformationCircleOutline size={30} className="menu-icon" onClick={goInfo} />
+        <GoHome size={30} className="home-icon" onClick={goHome} />
       </div>
-      <div className="header-right">
-        <Link to="/" className="home-btn">
-          <FaHome />
-        </Link>
-        <button className="menu-btn" onClick={toggleMenu}>
-          <FaBars />
-        </button>
-      </div>
-
-      {/* 사이드 메뉴 */}
-      <div className={`side-menu ${menuOpen ? "open" : ""}`}>
-        <button className="close-btn" onClick={toggleMenu}>
-          <FaTimes />
-        </button>
-        <nav>
-          <ul>
-            <li><Link to="/">홈</Link></li>
-            <li><Link to="/photographer/1">촬영하기</Link></li>
-            <li><Link to="/mypage/1">내 영상</Link></li>
-            <li><Link to="/signup">회원가입</Link></li>
-            <li><Link to="/login">로그인</Link></li>
-          </ul>
-        </nav>
-      </div>
-
-      {/* 배경 어둡게 처리 (클릭 시 닫기) */}
-      {menuOpen && <div className="overlay" onClick={toggleMenu}></div>}
-    </header>
+    </div>
   );
-}
+};
 
 export default Header;

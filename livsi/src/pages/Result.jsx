@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Header from "../components/header";
+import Header from "../components/Header";
 import "./Result.css";
 
 function Result() {

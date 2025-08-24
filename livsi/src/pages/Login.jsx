@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css"
+import { livsiFunctionContext } from "../App";
 
 function Login() {
+
+  const { IsLogin } = useContext(livsiFunctionContext)
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -15,7 +19,8 @@ function Login() {
 
     if (foundUser) {
       alert("로그인 성공!");
-      navigate(`/photographer/${foundUser.id}`);
+      IsLogin(username, password)
+      navigate(`/mypage/${foundUser.id}`);
     } else {
       alert("아이디 또는 비밀번호가 올바르지 않습니다.");
     }
