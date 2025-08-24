@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Header from "../components/header";
+import Header from "../components/Header";
 import "./Mypage.css";
 
 function MyPage() {

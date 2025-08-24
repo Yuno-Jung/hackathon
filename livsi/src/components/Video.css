@@ -1,0 +1,20 @@
+.video-container {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: gold;
+
+    border-radius: 5px;
+}
+
+.main-video {
+}
+
+.overlay {
+    position: absolute;
+}   

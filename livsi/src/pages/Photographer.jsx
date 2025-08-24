@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Header from "../components/header";
+import Header from "../components/Header";
 import "./Photographer.css";
 
 function Photographer() {

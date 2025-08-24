@@ -13,7 +13,7 @@ function Signup() {
   const handleSignup = () => {
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const newUser = {
-      id: Date.now(), // 고유 ID
+      id: Date.now(),
       name,
       phone,
       username,
@@ -23,7 +23,7 @@ function Signup() {
     localStorage.setItem("users", JSON.stringify([...users, newUser]));
 
     alert("회원가입 성공!");
-    navigate(`/photographer/${newUser.id}`); // 가입 후 바로 photographer로 이동
+    navigate(`/mypage/${newUser.id}`);
   };
 
   return (
