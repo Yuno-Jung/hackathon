@@ -1,0 +1,66 @@
+.mypage-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.mypage-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.mypage-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+  width: calc(50% - 16px);
+  box-sizing: border-box;
+}
+
+.mypage-thumb {
+  width: 90%;       /* 기존 100% → 90%로 줄임 */
+  max-width: 300px; /* 최대 크기 제한 */
+  border-radius: 8px;
+  margin: 0 auto 10px; /* 중앙 정렬 + 아래 여백 */
+  display: block;
+}
+
+.mypage-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-btn {
+  background: #b6ff73;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ff7373;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+}
+
+@media (min-width: 600px) {
+  .mypage-thumb {
+    width: 80%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 599px) {
+  .mypage-thumb {
+    width: 100%;
+  }
+}

@@ -1,0 +1,33 @@
+.auth-container {
+  width: 100%;
+  max-width: none; /* 화면 꽉차도록 */
+  text-align: center;
+}
+
+.auth-container .form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn {
+  padding: 12px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.footer {
+  margin-top: 30px;
+}
