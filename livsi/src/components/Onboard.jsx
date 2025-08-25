@@ -1,5 +1,5 @@
 import "./Onboard.css"
-import { useContext, useRef, useState } from "react"
+import React, { useContext, useRef, useState } from "react"
 import marketImage from "../images/traditional_market.png"
 import backgroundImage_1 from "../images/background_1.png"
 import backgroundImage_2 from "../images/background_2.png"
@@ -43,7 +43,7 @@ const Onboard = () => {
   const [translateX, setTranslateX] = useState(0)
   const swipeStartX = useRef(null)
 
-  const { setskip } = useContext(livsiFunctionContext)
+  const { setSkip } = useContext(livsiFunctionContext)
 
   const handleSwipeStart = (clientX) => {
     setIsSwipe(true)
@@ -126,7 +126,7 @@ const Onboard = () => {
       </div>
       
       <div className="bottom-ui">
-        <button className="bottom-button" onClick={setskip}>건너뛰기</button>
+        <button className="bottom-button" onClick={setSkip}>건너뛰기</button>
         <div className="pagination-dots">
           {cards.map((_, index) => (
             <div

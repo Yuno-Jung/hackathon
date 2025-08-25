@@ -8,25 +8,19 @@
 
 .instructions {
     color: #ffffff;
-    /* text-white */
     text-align: center;
     margin-top: 1rem;
-    /* mt-4 */
 }
 
-/* --- ShortsPlayer Component --- */
 .shorts-player {
     position: relative;
     max-width: 24rem;
-    /* max-w-sm */
     width: 100%;
     height: 100%;
     overflow: hidden;
     background-color: #000;
     border-radius: 0.5rem;
-    /* rounded-lg */
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    /* shadow-lg */
     cursor: grab;
 }
 
@@ -40,8 +34,9 @@
     height: 100%;
     transition-property: transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    /* ease-in-out */
     transition-duration: 300ms;
+    padding: 0;
+    margin: 0;
 }
 
 .video-slide {
@@ -51,39 +46,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    margin: 0;
 }
 
-.video-id {
-    font-size: 8rem;
-    /* text-9xl */
-    font-weight: 700;
-    /* font-bold */
-    color: rgba(255, 255, 255, 0.5);
-    /* text-white text-opacity-50 */
-    user-select: none;
+.video {
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-/* --- Overlays --- */
 .info-overlay {
     position: absolute;
     bottom: 1rem;
-    /* bottom-4 */
     left: 1rem;
-    /* left-4 */
+    right: 1rem;
     color: #ffffff;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 0.25rem 0.5rem;
-    /* px-2 py-1 */
     border-radius: 0.25rem;
-    /* rounded */
     font-size: 0.875rem;
-    /* text-sm */
 }
 
 .icon-overlay {
     position: absolute;
     top: 1rem;
-    /* top-4 */
     right: 1rem;
     color: #ffffff;
 }

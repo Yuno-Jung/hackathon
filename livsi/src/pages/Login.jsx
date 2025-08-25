@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { livsiFunctionContext } from "../App";
+import Header from "../components/Header";
 
 function Login() {
   const { handleLogin } = useContext(livsiFunctionContext);
@@ -20,8 +21,9 @@ function Login() {
   };
 
   return (
+    <div>
+      <Header />
     <div className="auth-container">
-      <h1 className="logo">LIV:SI</h1>
       <div className="form-box">
         <input
           type="text"
@@ -48,6 +50,7 @@ function Login() {
         </Link>
       </p>
       <footer className="footer">© Livsi Corp. \ 고객센터</footer>
+    </div>
     </div>
   );
 }

@@ -35,8 +35,10 @@ function MyPage() {
   };
 
   return (
-    <div className="mypage-container">
+    <div>
       <Header />   {/* ✅ 공통 헤더 */}
+
+    <div className="mypage-container">
 
       {/* ✅ 새로 만들기 버튼 */}
       <button className="new-video-btn" onClick={handleNewVideo}>
@@ -70,6 +72,7 @@ function MyPage() {
       ) : (
         <p>아직 공개한 영상이 없습니다.</p>
       )}
+    </div>
     </div>
   );
 }

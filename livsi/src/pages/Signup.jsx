@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {
@@ -27,6 +28,8 @@ function Signup() {
   };
 
   return (
+    <div>
+      <Header />
     <div className="auth-container">
       <h1 className="logo">LIV:SI</h1>
       <h2 className="title">회원가입</h2>
@@ -64,6 +67,7 @@ function Signup() {
         </button>
       </div>
       <footer className="footer">© Livsi Corp. \ 고객센터</footer>
+    </div>
     </div>
   );
 }

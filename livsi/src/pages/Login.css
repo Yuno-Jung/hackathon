@@ -1,7 +1,14 @@
 .auth-container {
   width: 100%;
-  max-width: none; /* 화면 꽉차도록 */
+  height: 70vh;
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
   text-align: center;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .auth-container .form-box {

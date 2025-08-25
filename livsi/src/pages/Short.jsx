@@ -1,7 +1,8 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo, useRef, useEffect, useContext } from "react";
 // import { useParams, useNavigate } from "react-router-dom"; // react-router-dom 의존성 제거
 import Header from "../components/Header"; // 이 컴포넌트 경로가 올바른지 확인해주세요.
 import "./short.css"; // 이 CSS 파일 경로가 올바른지 확인해주세요.
+import { livsistateContext } from "../App";
 
 const ALL_VIDEOS = [
   { id: "A" },
@@ -16,13 +17,9 @@ const ALL_VIDEOS = [
   { id: "J" },
 ];
 
-const getColorById = (id) => {
-  const charCode = id ? id.charCodeAt(0) : 0;
-  const hue = (charCode * 30) % 360;
-  return `hsl(${hue}, 70%, 80%)`;
-};
-
 export default function Short() {
+  const { Videos } = useContext(livsistateContext)
+
   const [playlist, setPlaylist] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [watchCounts, setWatchCounts] = useState(new Map());
@@ -43,20 +40,24 @@ export default function Short() {
 
     if (playlist.length === 0) {
       const idFromHash = getIdFromHash();
-      const initialVideo =
-        ALL_VIDEOS.find((v) => v.id === idFromHash) || ALL_VIDEOS[0];
-      setPlaylist([initialVideo.id]);
-      setWatchCounts(new Map([[initialVideo.id, 1]]));
-      // URL이 비어있을 경우 초기 비디오 ID로 해시를 설정합니다.
+      const initialVideo = Videos.find((v) => v.videoUrl === idFromHash) || Videos[0];
+      console.log(initialVideo)
+
+      setPlaylist([{
+        id: initialVideo.videoId,
+        videourl: initialVideo.videoUrl
+      }]);
+      setWatchCounts(new Map([[initialVideo.videoId, 1]]));
+
       if (!idFromHash) {
-        window.location.hash = initialVideo.id;
+        window.location.hash = initialVideo.videoId;
       }
     }
   }, []);
 
   useEffect(() => {
-    if (playlist.length > 0 && playlist[currentIndex]) {
-      const currentId = playlist[currentIndex];
+    if (playlist.length > 0 && playlist[currentIndex].id) {
+      const currentId = playlist[currentIndex].id;
       const currentHash = window.location.hash.substring(1);
       if (currentId !== currentHash) {
         window.location.hash = currentId;
@@ -67,11 +68,11 @@ export default function Short() {
   const videosToRender = useMemo(() => {
     const start = Math.max(0, currentIndex - 1);
     const end = Math.min(playlist.length, currentIndex + 2);
-    return playlist.slice(start, end).map((id, index) => ({
+    return playlist.slice(start, end).map((id, index) =>({
       id,
-      position: start + index,
-    }));
-  }, [playlist, currentIndex]);
+      position: start + index,}
+    ))
+  }, [playlist, currentIndex])
 
   const handleSwipeUp = () => {
     if (currentIndex > 0) {
@@ -86,20 +87,19 @@ export default function Short() {
     }
 
     let minWatchCount = Infinity;
-    ALL_VIDEOS.forEach((video) => {
-      const count = watchCounts.get(video.id) || 0;
+    Videos.forEach((video) => {
+      const count = watchCounts.get(video.videoUrl) || 0;
       if (count < minWatchCount) minWatchCount = count;
     });
 
-    const leastWatchedVideos = ALL_VIDEOS.filter(
-      (video) => (watchCounts.get(video.id) || 0) === minWatchCount
+    const leastWatchedVideos = Videos.filter(
+      (video) => (watchCounts.get(video.videoUrl) || 0) === minWatchCount
     );
-    const nextVideo =
-      leastWatchedVideos[Math.floor(Math.random() * leastWatchedVideos.length)];
+    const nextVideo = leastWatchedVideos[Math.floor(Math.random() * leastWatchedVideos.length)];
 
-    setPlaylist((prev) => [...prev, nextVideo.id]);
+    setPlaylist((prev) => [...prev, {id: nextVideo.videoId, videourl: nextVideo.videoUrl}]);
     setWatchCounts((prev) =>
-      new Map(prev).set(nextVideo.id, (prev.get(nextVideo.id) || 0) + 1)
+      new Map(prev).set(nextVideo.videoId, (prev.get(nextVideo.videoId) || 0) + 1)
     );
     setCurrentIndex((prev) => prev + 1);
   };
@@ -141,20 +141,28 @@ export default function Short() {
           >
             {videosToRender.map(({ id, position }) => (
               <div
-                key={`${id}-${position}`}
+                key={`${id.id}-${position}`}
                 className="video-slide"
                 style={{
                   top: `${position * 100}%`,
-                  backgroundColor: getColorById(id),
                 }}
               >
-                <span className="video-id">{id}</span>
+                <video 
+                src={id.videourl} 
+                className="video"
+                autoPlay
+                ></video>
+                <span className="video-id">{id.id}</span>
               </div>
             ))}
           </div>
           <div className="info-overlay">
-            <p>현재 영상: {playlist[currentIndex]}</p>
-            <p>재생 목록: {playlist.join(", ")}</p>
+            <span className="sido"></span>
+            <span className="sigungu"></span>
+            <label htmlFor="comment-button">댓글</label>
+            <button className="comment-button"></button>
+            <label htmlFor="like-button">좋아요</label>
+            <button className="like-button"></button>
           </div>
         </div>
       </div>

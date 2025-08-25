@@ -8,15 +8,31 @@ import Photographer from "./pages/Photographer";
 import Result from "./pages/Result";
 import MyPage from "./pages/Mypage";
 import Main from "./pages/Main";
+import Onboard from "./components/Onboard";
+import axios from "./axios/axios";
 
 export const livsiFunctionContext = createContext();
 export const livsistateContext = createContext();
 
 function App() {
   const [isOn, setIson] = useState(true);
-  const [toggleMenu, setToggleMenu] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [loginInfo, setLoginInfo] = useState(null);
+  
+  const [Videos, setVideos] = useState([])
+
+    const onLoad = async () => {
+    let Data = []
+    try {
+      const res = await axios.get("/videos/sido?sido=서울시")
+      Data = res.data
+      setVideos(Data)
+      console.log("loaded", Videos)
+    } catch (error) {
+      console.log("error")
+    }
+    console.log(Data)
+  }
 
   useEffect(() => {
     const savedLogin = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -26,8 +42,9 @@ function App() {
     }
   }, []);
 
-  const toggleMenuBar = () => setToggleMenu(!toggleMenu);
-  const setSkip = () => setIson(false);
+  const setSkip = () => {
+    setIson(false)
+  };
 
   const handleLogin = (username, password) => {
     const users = JSON.parse(localStorage.getItem("users")) || [];
@@ -45,8 +62,9 @@ function App() {
   };
 
   return (
-    <livsistateContext.Provider value={{ toggleMenu, loginInfo, isLogin }}>
-      <livsiFunctionContext.Provider value={{ toggleMenuBar, setSkip, handleLogin }}>
+    <livsistateContext.Provider value={{ loginInfo, isLogin, Videos }}>
+      <livsiFunctionContext.Provider value={{ setSkip, handleLogin, onLoad }}>
+        {/* {isOn ? <Onboard /> : null} */}
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/short" element={<Short />} />
