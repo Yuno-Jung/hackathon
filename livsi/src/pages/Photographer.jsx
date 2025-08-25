@@ -39,50 +39,35 @@ function Photographer() {
     }).open();
   };
 
-  const handleSubmit = async () => {
-    // const uploadData = {
-    //   userId: id,
-    //   storeImg: storeImg,
-    //   menuImg: menuImg,
-    //   foodVideo: foodVideo,
-    //   category,
-    //   description,
-    //   location,
-    //   effect,
-    // };
-
-    // localStorage.setItem(`upload_${id}`, JSON.stringify(uploadData));
-    // // navigate(`/result/${id}`);
-    const videoInfo = {
+    const handleSubmit = async () => {
+      const videoInfo = {
         sido: "서울시",
         sigungu: "서대문구",
-        member: {
-          email: "user@example.com",
-        },
-      }
+        member: { email: "user@example.com" },
+      };
 
-    const formData = new FormData()
-    formData.append("videoFile", foodVideo)
-    formData.append("video", JSON.stringify(videoInfo))
-    formData.append("sigunguEnglish", "Seodaemun-gu")
-    formData.append("voicePack", "남성")
+      const formData = new FormData();
+      formData.append("videoFile", foodVideo);
+      formData.append("video", JSON.stringify(videoInfo));
+      formData.append("sigunguEnglish", location);
+      formData.append("voicePack", effect);
 
-    console.log(foodVideo, formData, location, effect);
+      try {
+        const res = await axios.post("/videos/video-analyze", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
 
-    const res = await axios.post(
-      `/videos/video-analyze`,
-      formData,
-      // location,
-      // effect,
-      // foodVideo,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    console.log(res);
+      const { jobId } = res.data;
+      console.log("분석 요청 완료, jobId:", jobId);
+
+      // ✅ Processing으로 jobId 전달
+      navigate(`/processing/${jobId}`);
+    } catch (err) {
+      console.error("영상 업로드/분석 요청 실패", err);
+      alert("영상 업로드 또는 분석 요청 중 오류가 발생했습니다.");
+    }
   };
+
 
   return (
     <div>

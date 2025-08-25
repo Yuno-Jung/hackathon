@@ -139,7 +139,6 @@ export default function Short() {
                 className="video"
                 autoPlay
                 ></video>
-                <span className="video-id">{id.id}</span>
               </div>
             ))}
           </div>
