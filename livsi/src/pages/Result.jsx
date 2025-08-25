@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../components/Header.jsx";
 import axios from "../axios/axios"; // 서버 호출용
 import "./Result.css";
 

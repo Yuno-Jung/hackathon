@@ -1,7 +1,7 @@
 import React from "react";
 import "./Main.css";
 import { useContext, useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/Header.jsx";
 import VideoList from "../components/VideoList";
 import { livsiFunctionContext } from "../App";
 

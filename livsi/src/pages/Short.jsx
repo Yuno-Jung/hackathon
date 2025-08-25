@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect, useContext } from "react";
-import Header from "../components/Header";
+import Header from "../components/Header.jsx";
 import "./short.css";
 import { livsistateContext } from "../App";
 import YourVideoComponent from "../components/VideoComponent";
