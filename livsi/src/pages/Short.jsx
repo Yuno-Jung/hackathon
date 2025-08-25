@@ -4,19 +4,6 @@ import Header from "../components/Header"; // 이 컴포넌트 경로가 올바�
 import "./short.css"; // 이 CSS 파일 경로가 올바른지 확인해주세요.
 import { livsistateContext } from "../App";
 
-const ALL_VIDEOS = [
-  { id: "A" },
-  { id: "B" },
-  { id: "C" },
-  { id: "D" },
-  { id: "E" },
-  { id: "F" },
-  { id: "G" },
-  { id: "H" },
-  { id: "I" },
-  { id: "J" },
-];
-
 export default function Short() {
   const { Videos } = useContext(livsistateContext)
 
