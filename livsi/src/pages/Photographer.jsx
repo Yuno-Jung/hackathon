@@ -65,9 +65,7 @@ function Photographer() {
     formData.append("videoFile", foodVideo)
     formData.append("video", JSON.stringify(videoInfo))
     formData.append("sigunguEnglish", "Seodaemun-gu")
-    formData.append("voicePack", "남성")
-
-    console.log(foodVideo, formData, location, effect);
+    formData.append("voicePack", effect)
 
     const res = await axios.post(
       `/videos/video-analyze`,

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import "./Mypage.css";
+import axios from "../axios/axios";
 
 function MyPage() {
   const { id } = useParams();
@@ -10,9 +11,9 @@ function MyPage() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const allPosts = JSON.parse(localStorage.getItem("publishedPosts")) || [];
-    const userPosts = allPosts.filter((post) => post.userId === id);
-    setPosts(userPosts);
+    const allPosts = axios.get(`/members/6`)
+    console.log(allPosts)
+    setPosts(allPosts);
   }, [id]);
 
   const handleDelete = (postId) => {
@@ -27,19 +28,17 @@ function MyPage() {
     navigate(`/photographer/${id}`);
   };
 
-  // ✅ 새로 만들기 버튼 클릭 시 Photographer로 이동
   const handleNewVideo = () => {
-    localStorage.removeItem(`upload_${id}`); // 이전 수정 데이터 초기화
+    localStorage.removeItem(`upload_${id}`);
     navigate(`/photographer/${id}`);
   };
 
   return (
     <div>
-      <Header />   {/* ✅ 공통 헤더 */}
+      <Header /> 
 
     <div className="mypage-container">
 
-      {/* ✅ 새로 만들기 버튼 */}
       <button className="new-video-btn" onClick={handleNewVideo}>
          + 동영상 새로 만들기
       </button>

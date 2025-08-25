@@ -16,25 +16,27 @@ export const livsistateContext = createContext();
 
 function App() {
   const [isOn, setIson] = useState(true);
+  const [isLoading, setIsloading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [loginInfo, setLoginInfo] = useState(null);
-  
-  const [Videos, setVideos] = useState([])
 
-    const onLoad = async () => {
-    let Data = []
+  const [Videos, setVideos] = useState([]);
+
+  const onLoad = async () => {
+    let Data = [];
     try {
-      const res = await axios.get("/videos/sido?sido=서울시")
-      Data = res.data
-      setVideos(Data)
-      console.log("loaded", Videos)
+      const res = await axios.get("/videos/sido?sido=서울시");
+      Data = res.data;
+      setVideos(Data);
+      setIsloading(true)
     } catch (error) {
-      console.log("error")
+      console.log("error");
     }
-    console.log(Data)
-  }
+    console.log(Data);
+  };
 
   useEffect(() => {
+    onLoad();
     const savedLogin = JSON.parse(localStorage.getItem("loggedInUser"));
     if (savedLogin) {
       setIsLogin(true);
@@ -43,7 +45,7 @@ function App() {
   }, []);
 
   const setSkip = () => {
-    setIson(false)
+    setIson(false);
   };
 
   const handleLogin = (username, password) => {
@@ -61,9 +63,13 @@ function App() {
     return null;
   };
 
+  if (!isLoading) {
+    return <div>로딩중</div>
+  }
+
   return (
     <livsistateContext.Provider value={{ loginInfo, isLogin, Videos }}>
-      <livsiFunctionContext.Provider value={{ setSkip, handleLogin, onLoad }}>
+      <livsiFunctionContext.Provider value={{ setSkip, handleLogin }}>
         {/* {isOn ? <Onboard /> : null} */}
         <Routes>
           <Route path="/" element={<Main />} />

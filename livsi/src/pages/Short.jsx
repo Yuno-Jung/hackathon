@@ -1,46 +1,68 @@
 import React, { useState, useMemo, useRef, useEffect, useContext } from "react";
-// import { useParams, useNavigate } from "react-router-dom"; // react-router-dom 의존성 제거
-import Header from "../components/Header"; // 이 컴포넌트 경로가 올바른지 확인해주세요.
-import "./short.css"; // 이 CSS 파일 경로가 올바른지 확인해주세요.
+import Header from "../components/Header";
+import "./short.css";
 import { livsistateContext } from "../App";
 
 export default function Short() {
-  const { Videos } = useContext(livsistateContext)
+  const { Videos } = useContext(livsistateContext);
 
   const [playlist, setPlaylist] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [watchCounts, setWatchCounts] = useState(new Map());
+  const [isMuted, setIsMuted] = useState(false);
 
   const containerRef = useRef(null);
   const startY = useRef(0);
   const endY = useRef(0);
   const isDragging = useRef(false);
+  const pressTimer = useRef(null);
+  const isLongPress = useRef(false);
 
   useEffect(() => {
-    const getIdFromHash = () => {
-      const hash = window.location.hash;
-      if (hash.startsWith("#/")) {
-        return hash.substring(2);
-      }
-      return hash.substring(1);
-    };
+    if (!Videos || Videos.length === 0 || playlist.length > 0) return;
 
-    if (playlist.length === 0) {
-      const idFromHash = getIdFromHash();
-      const initialVideo = Videos.find((v) => v.videoUrl === idFromHash) || Videos[0];
-      console.log(initialVideo)
+    const getIdFromHash = () => window.location.hash.substring(1);
+    const idFromHash = getIdFromHash();
 
-      setPlaylist([{
-        id: initialVideo.videoId,
-        videourl: initialVideo.videoUrl
-      }]);
+    const initialVideo =
+      Videos.find((v) => v.videoId === idFromHash) || Videos[0];
+
+    if (initialVideo) {
+      setPlaylist([
+        {
+          id: initialVideo.videoId,
+          videourl: initialVideo.videoUrl,
+          sido: initialVideo.sido,
+          sigungu: initialVideo.sigungu,
+        },
+      ]);
       setWatchCounts(new Map([[initialVideo.videoId, 1]]));
 
-      if (!idFromHash) {
+      if (idFromHash !== initialVideo.videoId) {
         window.location.hash = initialVideo.videoId;
       }
     }
-  }, []);
+  }, [Videos, playlist.length]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const videoId = window.location.hash.substring(1);
+      if (!videoId) return;
+
+      const indexInPlaylist = playlist.findIndex(
+        (video) => video.id === videoId
+      );
+
+      if (indexInPlaylist !== -1) {
+        setCurrentIndex(indexInPlaylist);
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [playlist]);
 
   useEffect(() => {
     if (playlist.length > 0 && playlist[currentIndex].id) {
@@ -55,18 +77,17 @@ export default function Short() {
   const videosToRender = useMemo(() => {
     const start = Math.max(0, currentIndex - 1);
     const end = Math.min(playlist.length, currentIndex + 2);
-    return playlist.slice(start, end).map((id, index) =>({
+    return playlist.slice(start, end).map((id, index) => ({
       id,
-      position: start + index,}
-    ))
-  }, [playlist, currentIndex])
+      position: start + index,
+    }));
+  }, [playlist, currentIndex]);
 
   const handleSwipeUp = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prevIndex) => prevIndex - 1);
     }
   };
-
   const handleSwipeDown = () => {
     if (currentIndex < playlist.length - 1) {
       setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -82,17 +103,24 @@ export default function Short() {
     const leastWatchedVideos = Videos.filter(
       (video) => (watchCounts.get(video.videoUrl) || 0) === minWatchCount
     );
-    const nextVideo = leastWatchedVideos[Math.floor(Math.random() * leastWatchedVideos.length)];
+    const nextVideo =
+      leastWatchedVideos[Math.floor(Math.random() * leastWatchedVideos.length)];
 
-    setPlaylist((prev) => [...prev, {id: nextVideo.videoId, videourl: nextVideo.videoUrl}]);
+    setPlaylist((prev) => [
+      ...prev,
+      { id: nextVideo.videoId, videourl: nextVideo.videoUrl },
+    ]);
     setWatchCounts((prev) =>
-      new Map(prev).set(nextVideo.videoId, (prev.get(nextVideo.videoId) || 0) + 1)
+      new Map(prev).set(
+        nextVideo.videoId,
+        (prev.get(nextVideo.videoId) || 0) + 1
+      )
     );
     setCurrentIndex((prev) => prev + 1);
   };
-
   const dragStart = (y) => {
     startY.current = y;
+    endY.current = y;
     isDragging.current = true;
     document.body.style.userSelect = "none";
   };
@@ -105,8 +133,13 @@ export default function Short() {
     document.body.style.userSelect = "auto";
     if (startY.current - endY.current > 50) handleSwipeDown();
     else if (endY.current - startY.current > 50) handleSwipeUp();
-  };
 
+    startY.current = 0;
+    endY.current = 0;
+  };
+  const onMousemove = () => {
+    console.log(window.MouseEvent);
+  };
   const eventHandlers = {
     onTouchStart: (e) => dragStart(e.targetTouches[0].clientY),
     onTouchMove: (e) => dragMove(e.targetTouches[0].clientY),
@@ -117,10 +150,41 @@ export default function Short() {
     onMouseLeave: dragEnd,
   };
 
+  const PRESS_THRESHOLD = 250
+
+  const handlePressStart = (e) => {
+    e.preventDefault();
+    const targetElement = e.currentTarget;
+    isLongPress.current = false;
+
+    pressTimer.current = setTimeout(() => {
+      const videoEl = targetElement.querySelector("video");
+      if (videoEl) {
+        videoEl.pause();
+      }
+      isLongPress.current = true;
+    }, PRESS_THRESHOLD);
+  };
+
+  const handlePressEnd = (e) => {
+    clearTimeout(pressTimer.current);
+    const targetElement = e.currentTarget;
+
+    const videoEl = targetElement.querySelector("video");
+
+    if (isLongPress.current) {
+      if (videoEl && videoEl.paused) {
+        videoEl.play();
+      }
+    } else {
+      setIsMuted((prev) => !prev);
+    }
+  };
+
   return (
     <div className="app-container">
       <Header />
-      <div className="player-container">
+      <div className="player-container" onMouseMove={onMousemove}>
         <div ref={containerRef} className="shorts-player" {...eventHandlers}>
           <div
             className="video-track"
@@ -133,23 +197,28 @@ export default function Short() {
                 style={{
                   top: `${position * 100}%`,
                 }}
+                onMouseDown={handlePressStart}
+                onTouchStart={handlePressStart}
+                onMouseUp={handlePressEnd}
+                onTouchEnd={handlePressEnd}
+                onMouseLeave={handlePressEnd}
               >
                 <video 
                 src={id.videourl} 
-                className="video"
+                className="video" 
                 autoPlay
+                muted={isMuted}
+                loop
+                playsInline
+                // paused={position !== currentIndex}
                 ></video>
-                <span className="video-id">{id.id}</span>
+
+                <div className="info-overlay">
+                  <span className="sido">{id.sido}</span>
+                  <span className="sigungu">{id.sigungu}</span>
+                </div>
               </div>
             ))}
-          </div>
-          <div className="info-overlay">
-            <span className="sido"></span>
-            <span className="sigungu"></span>
-            <label htmlFor="comment-button">댓글</label>
-            <button className="comment-button"></button>
-            <label htmlFor="like-button">좋아요</label>
-            <button className="like-button"></button>
           </div>
         </div>
       </div>

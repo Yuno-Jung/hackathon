@@ -14,22 +14,14 @@ const VideoList = () => {
   const certiffiedVideos = (cartegories) => {
     return Videos.filter((video) => cartegories.includes(video));
   };
-  
-  const chack = async () => {
-    const res = await axios.get("/videos/video-analyze/status/208ebe43-5a1d-46bd-93e9-1487e155dd0d")
-    console.log(res.data)
-  }
-  
-  useEffect(() => {
-    onLoad()
-  }, []);
 
   return (
     <div className="video-list-container">
       <div className="video-list">
         {Videos.map((video, index) => (
           <Video 
-          key={video.videoId} 
+          key={index}
+          videoId={video.videoId} 
           title={video.title} 
           description={video.description} 
           videoUrl={video.videoUrl} 
