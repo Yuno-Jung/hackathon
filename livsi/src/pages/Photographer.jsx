@@ -17,7 +17,6 @@ function Photographer() {
   const [location, setLocation] = useState("Seodaemun-gu");
   const [effect, setEffect] = useState("남성");
 
-  // 📌 수정 모드일 경우 기존 데이터 불러오기
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem(`upload_${id}`));
     if (savedData) {

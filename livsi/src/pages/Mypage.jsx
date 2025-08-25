@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import "./Mypage.css";
+import axios from "../axios/axios";
 
 function MyPage() {
   const { id } = useParams();
@@ -10,9 +11,9 @@ function MyPage() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const allPosts = JSON.parse(localStorage.getItem("publishedPosts")) || [];
-    const userPosts = allPosts.filter((post) => post.userId === id);
-    setPosts(userPosts);
+    const allPosts = axios.get(`/members/6`)
+    console.log(allPosts)
+    setPosts(allPosts);
   }, [id]);
 
   const handleDelete = (jobId) => {
@@ -34,14 +35,12 @@ function MyPage() {
 
   return (
     <div>
-      <Header />
+      <Header /> 
 
       <div className="mypage-container">
         <button className="new-video-btn" onClick={handleNewVideo}>
           + 동영상 새로 만들기
         </button>
-
-        <h3>내 영상 관리</h3>
 
         {posts.length > 0 ? (
           <div className="mypage-grid">
