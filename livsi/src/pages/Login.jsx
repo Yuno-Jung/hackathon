@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { livsiFunctionContext } from "../App";
-import Header from "../components/Header";
+
 
 function Login() {
   const { handleLogin } = useContext(livsiFunctionContext);
@@ -14,7 +14,7 @@ function Login() {
     const user = handleLogin(username, password);
     if (user) {
       alert("로그인 성공!");
-      navigate(`/mypage/${user.id}`);
+      navigate(`/`);
     } else {
       alert("아이디 또는 비밀번호가 올바르지 않습니다.");
     }
@@ -22,7 +22,7 @@ function Login() {
 
   return (
     <div>
-      <Header />
+      
     <div className="auth-container">
       <div className="form-box">
         <input
