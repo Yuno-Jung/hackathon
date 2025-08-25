@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import "./App.css";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Short from "./pages/Short";
 import Photographer from "./pages/Photographer";
+import Processing from "./pages/Processing"; // 📌 추가
 import Result from "./pages/Result";
 import MyPage from "./pages/Mypage";
 import Main from "./pages/Main";
@@ -77,6 +78,7 @@ function App() {
           <Route path="/signin" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/photographer/:id" element={<Photographer />} />
+          <Route path="/processing/:id" element={<Processing />} /> {/* 📌 추가 */}
           <Route path="/result/:id" element={<Result />} />
           <Route
             path="/mypage/:id"
