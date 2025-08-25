@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useEffect, useContext } from "react";
 import Header from "../components/Header";
 import "./short.css";
 import { livsistateContext } from "../App";
+import YourVideoComponent from "../components/VideoComponent";
 
 export default function Short() {
   const { Videos } = useContext(livsistateContext);
@@ -9,7 +10,7 @@ export default function Short() {
   const [playlist, setPlaylist] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [watchCounts, setWatchCounts] = useState(new Map());
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   const containerRef = useRef(null);
   const startY = useRef(0);
@@ -17,7 +18,8 @@ export default function Short() {
   const isDragging = useRef(false);
   const pressTimer = useRef(null);
   const isLongPress = useRef(false);
-
+  const videoRef = useRef(null)
+  
   useEffect(() => {
     if (!Videos || Videos.length === 0 || playlist.length > 0) return;
 
@@ -201,17 +203,8 @@ export default function Short() {
                 onTouchStart={handlePressStart}
                 onMouseUp={handlePressEnd}
                 onTouchEnd={handlePressEnd}
-                onMouseLeave={handlePressEnd}
               >
-                <video 
-                src={id.videourl} 
-                className="video" 
-                autoPlay
-                muted={isMuted}
-                loop
-                playsInline
-                // paused={position !== currentIndex}
-                ></video>
+                {<YourVideoComponent id={id} position={position} currentIndex={currentIndex} isMuted={isMuted} />}
 
                 <div className="info-overlay">
                   <span className="sido">{id.sido}</span>
@@ -225,3 +218,4 @@ export default function Short() {
     </div>
   );
 }
+
