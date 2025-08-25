@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import "./App.css";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Short from "./pages/Short";
 import Photographer from "./pages/Photographer";
+import Processing from "./pages/Processing"; // 📌 추가
 import Result from "./pages/Result";
 import MyPage from "./pages/Mypage";
 import Main from "./pages/Main";
@@ -18,21 +19,21 @@ function App() {
   const [isOn, setIson] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [loginInfo, setLoginInfo] = useState(null);
-  
-  const [Videos, setVideos] = useState([])
 
-    const onLoad = async () => {
-    let Data = []
+  const [Videos, setVideos] = useState([]);
+
+  const onLoad = async () => {
+    let Data = [];
     try {
-      const res = await axios.get("/videos/sido?sido=서울시")
-      Data = res.data
-      setVideos(Data)
-      console.log("loaded", Videos)
+      const res = await axios.get("/videos/sido?sido=서울시");
+      Data = res.data;
+      setVideos(Data);
+      console.log("loaded", Videos);
     } catch (error) {
-      console.log("error")
+      console.log("error");
     }
-    console.log(Data)
-  }
+    console.log(Data);
+  };
 
   useEffect(() => {
     const savedLogin = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -43,7 +44,7 @@ function App() {
   }, []);
 
   const setSkip = () => {
-    setIson(false)
+    setIson(false);
   };
 
   const handleLogin = (username, password) => {
@@ -71,6 +72,7 @@ function App() {
           <Route path="/signin" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/photographer/:id" element={<Photographer />} />
+          <Route path="/processing/:id" element={<Processing />} /> {/* 📌 추가 */}
           <Route path="/result/:id" element={<Result />} />
           <Route
             path="/mypage/:id"

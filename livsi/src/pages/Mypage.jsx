@@ -15,9 +15,9 @@ function MyPage() {
     setPosts(userPosts);
   }, [id]);
 
-  const handleDelete = (postId) => {
+  const handleDelete = (jobId) => {
     const allPosts = JSON.parse(localStorage.getItem("publishedPosts")) || [];
-    const updated = allPosts.filter((p) => p.id !== postId);
+    const updated = allPosts.filter((p) => p.jobId !== jobId);
     localStorage.setItem("publishedPosts", JSON.stringify(updated));
     setPosts(updated.filter((p) => p.userId === id));
   };
@@ -27,51 +27,46 @@ function MyPage() {
     navigate(`/photographer/${id}`);
   };
 
-  // ✅ 새로 만들기 버튼 클릭 시 Photographer로 이동
   const handleNewVideo = () => {
-    localStorage.removeItem(`upload_${id}`); // 이전 수정 데이터 초기화
+    localStorage.removeItem(`upload_${id}`);
     navigate(`/photographer/${id}`);
   };
 
   return (
     <div>
-      <Header />   {/* ✅ 공통 헤더 */}
+      <Header />
 
-    <div className="mypage-container">
+      <div className="mypage-container">
+        <button className="new-video-btn" onClick={handleNewVideo}>
+          + 동영상 새로 만들기
+        </button>
 
-      {/* ✅ 새로 만들기 버튼 */}
-      <button className="new-video-btn" onClick={handleNewVideo}>
-         + 동영상 새로 만들기
-      </button>
+        <h3>내 영상 관리</h3>
 
-      <h3>내 영상 관리</h3>
-
-      
-
-      {posts.length > 0 ? (
-        <div className="mypage-grid">
-          {posts.map((post) => (
-            <div key={post.id} className="mypage-card">
-              {post.thumbnail ? (
-                <img src={post.thumbnail} alt="thumbnail" className="mypage-thumb" />
-              ) : (
-                <video src={post.foodVideo} className="mypage-thumb" controls />
-              )}
-              <div className="mypage-actions">
-                <button className="edit-btn" onClick={() => handleEdit(post)}>
-                  수정
-                </button>
-                <button className="delete-btn" onClick={() => handleDelete(post.id)}>
-                  삭제
-                </button>
+        {posts.length > 0 ? (
+          <div className="mypage-grid">
+            {posts.map((post) => (
+              <div key={post.jobId} className="mypage-card">
+                {post.thumbnail ? (
+                  <img src={post.thumbnail} alt="thumbnail" className="mypage-thumb" />
+                ) : (
+                  <video src={post.foodVideo} className="mypage-thumb" controls />
+                )}
+                <div className="mypage-actions">
+                  <button className="edit-btn" onClick={() => handleEdit(post)}>
+                    수정
+                  </button>
+                  <button className="delete-btn" onClick={() => handleDelete(post.jobId)}>
+                    삭제
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>아직 공개한 영상이 없습니다.</p>
-      )}
-    </div>
+            ))}
+          </div>
+        ) : (
+          <p>아직 공개한 영상이 없습니다.</p>
+        )}
+      </div>
     </div>
   );
 }
