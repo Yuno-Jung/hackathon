@@ -1,6 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { FaHome, FaBars, FaTimes } from "react-icons/fa";
 import "./Header.css";
 import { GoHome } from "react-icons/go";
 import { IoMdInformationCircleOutline } from "react-icons/io";
