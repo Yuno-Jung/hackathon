@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { livsiFunctionContext } from "../App";
-import Header from "../components/Header";
+import Header from "../components/Header.jsx";
 
 function Login() {
   const { handleLogin } = useContext(livsiFunctionContext);
